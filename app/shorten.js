@@ -1,6 +1,7 @@
 import randomstring from 'randomstring';
+import { addUrl } from './db'
 
-function generateShortUrl() {
+function generateShortUri() {
   return randomstring.generate({
     length: 5,
     charset: 'alphanumeric',
@@ -9,5 +10,7 @@ function generateShortUrl() {
 }
 
 export function shorten(longUri) {
-  return generateShortUrl();
+  const shortUri = generateShortUri();
+  addUrl(shortUri, longUri);
+  return shortUri;
 }

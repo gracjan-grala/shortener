@@ -5,4 +5,5 @@
 1. Load up node (`nvm use`)
 1. (optional) Install `yarn` if you don't have it: `npm install -g yarn`
 1. `yarn install` to install dependencies
+1. (only the first time) `yarn initdb` to initialize SQLite database for the URLs
 1. `yarn start` to start the app

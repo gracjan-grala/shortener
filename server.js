@@ -1,14 +1,20 @@
 import express, { Router } from 'express';
 import { shorten } from './app/shorten';
 import { renderFile } from 'ejs';
+import sanitize from 'sanitize';
 import bodyParser from 'body-parser';
+import { getFullUrl } from './app/db'
 
 const URN = 'http://localhost:3000/'
 const app = express();
 const router = Router();
 const viewsPath = __dirname + '/views/';
 
+// required for parsing POST request data
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// DB input sanitization
+app.use(sanitize.middleware);
 
 router.use((req, res, next) => {
   console.log(req.method + ' ' + req.path);
@@ -35,11 +41,16 @@ router.post('/shorten', (req, res) => {
 });
 
 router.all('*', (req, res) => {
-  if (req.path === '/sss') {
-    res.redirect('https://saucelabs.com/');
-  } else {
-    res.status(404).sendFile(viewsPath + "404.html");
-  }
+  const shortUri = req.path.substr(1);
+
+  getFullUrl(shortUri)
+    .then((row) => {
+      res.redirect(row.long);
+    })
+    .catch((err) => {
+      console.error('DB error: ', err);
+      res.status(404).sendFile(viewsPath + "404.html");
+    })
 })
 
 app.use('/', router);

@@ -8,7 +8,8 @@
     "type": "git"
   },
   "scripts": {
-    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./yarn.lock --copy-files",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./yarn.lock,./README.md,./urls.sqlite --copy-files",
+    "initdb": "npm run build && node dist/initdb.js",
     "start": "npm run build && node dist/server.js"
   },
   "author": "Gracjan Grala <gracjan.grala@gmail.com>",
@@ -18,7 +19,9 @@
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "randomstring": "^1.1.5",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "sanitize": "^2.0.1",
+    "sqlite3": "^3.1.13"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
