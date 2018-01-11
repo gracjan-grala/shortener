@@ -14,7 +14,10 @@
   "author": "Gracjan Grala <gracjan.grala@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "randomstring": "^1.1.5",
     "rimraf": "^2.6.2"
   },
   "devDependencies": {

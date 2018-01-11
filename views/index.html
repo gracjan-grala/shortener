@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Saucy URL Shortener</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+          <div class="jumbotron">
+            <h1>Saucy URL Shortener</h1>
+
+            <form method="POST" action="/shorten">
+              <div class="form-group">
+                <input type="text" class="form-control input-lg" name="long_uri" id="long_uri" placeholder="Enter long URL" />
+              </div>
+              <div class="form-group"> 
+                <button type="submit" class="btn btn-block btn-lg btn-primary">Shorten it!</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
