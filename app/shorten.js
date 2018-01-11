@@ -11,6 +11,6 @@ function generateShortUri() {
 
 export function shorten(longUri) {
   const shortUri = generateShortUri();
-  addUrl(shortUri, longUri);
-  return shortUri;
+
+  return addUrl(shortUri, longUri).then(() => shortUri);
 }

@@ -4,28 +4,42 @@ const db = new sqlite3.Database(process.cwd() + '/urls.sqlite')
 
 export function initialize() {
   db.serialize(function () {
-    db.run('CREATE TABLE urls (short TEXT, long TEXT)')
+    db.run('CREATE TABLE urls (short TEXT, long TEXT)');
   })
 
-  db.close()
+  db.close();
 }
 
 export function addUrl(short, long) {
-  db.run(`INSERT INTO urls VALUES (?, ?)`, short, long)
+  return new Promise((resolve, reject) =>
+    db.run(
+      `INSERT INTO urls VALUES (?, ?)`, short, long,
+      (err) => {
+        if (err) {
+          console.error('DB error: ', err);
+          reject(err);
+        } else {
+          resolve();
+        }
+      }
+    )
+  );
 }
 
 export function getFullUrl(short) {
   return new Promise((resolve, reject) =>
     db.get(
-      `SELECT long FROM urls WHERE urls.short = ?`,
-      short,
+      `SELECT long FROM urls WHERE short = ?`, short,
       (err, row) => {
-        if (err) {
-          reject(err)
+        if (row && row.long) {
+          resolve(row.long);
         } else {
-          resolve(row)
+          if (err) {
+            console.error('DB error: ', err);
+          }
+          reject(err || 'URL not found');
         }
       }
     )
-  )
+  );
 }

@@ -26,29 +26,36 @@ router.get('/', (req, res) => {
 });
 
 router.post('/shorten', (req, res) => {
+  // Consciously made distinction between a URL and a URI
   const longUri = req.body.long_uri;
-  const shortUrl = shorten(longUri);
-  const shortUri = `${URN}${shortUrl}`;
 
-  renderFile(viewsPath + 'shorten.ejs', { shortUrl: shortUri }, (err, string) => {
-    if (err) {
-      console.log('EJS render error: ', err);
+  shorten(longUri)
+    .then((shortUrl) => {
+      const shortUri = `${URN}${shortUrl}`;
+
+      renderFile(viewsPath + 'shorten.ejs', { shortUrl: shortUri }, (err, string) => {
+        if (err) {
+          console.log('EJS render error: ', err);
+          return res.status(500).send('Sorry. I messed up.');
+        }
+
+        res.send(string);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
       return res.status(500).send('Sorry. I messed up.');
-    }
-
-    res.send(string);
-  });
+    });
 });
 
 router.all('*', (req, res) => {
   const shortUri = req.path.substr(1);
 
   getFullUrl(shortUri)
-    .then((row) => {
-      res.redirect(row.long);
+    .then((longUrl) => {
+      res.redirect(longUrl);
     })
-    .catch((err) => {
-      console.error('DB error: ', err);
+    .catch(() => {
       res.status(404).sendFile(viewsPath + "404.html");
     })
 })
