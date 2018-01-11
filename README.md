@@ -1,3 +1,5 @@
+#### [Repo at the 2-hour mark](https://github.com/gracjan-grala/shortener/tree/c3d98104d49d2f9b3104afea69a58f8e3d54457e)
+
 ## Usage
 
 1. Load up node (`nvm use`)
